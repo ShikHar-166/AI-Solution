@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Services | AI-Solution{% endblock %}
+{% block content %}
+<section class="page-hero gradient-page">
+    <div class="container"><span>/ Services</span><h1>AI software services</h1><p>Explore professional services offered by AI-Solution for automation, support and business growth.</p></div>
+</section>
+<section class="section container">
+    <div class="card-grid three">
+        {% for service in services %}
+        <article class="soft-card tall-card">
+            {% if service.images %}<img src="{{ service.images.0.data_url }}" alt="{{ service.title }}" class="card-image">{% else %}<div class="icon-circle">{{ service.icon }}</div>{% endif %}
+            <h3>{{ service.title }}</h3>
+            <p>{{ service.description }}</p>
+            {% if service.features %}<ul class="check-list">{% for feature in service.features %}<li>{{ feature }}</li>{% endfor %}</ul>{% endif %}
+            <a href="{% url 'contact' %}" class="text-link">Request this service →</a>
+        </article>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

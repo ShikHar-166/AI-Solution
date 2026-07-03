@@ -1,0 +1,64 @@
+{% extends 'admin_base.html' %}
+{% block title %}Enquiry Detail | AI-Solution{% endblock %}
+{% block admin_content %}
+<div class="admin-page compact-admin">
+    <div class="admin-header">
+        <div>
+            <span>/ Customer Enquiry</span>
+            <h1>{{ inquiry.name }}</h1>
+            <p>{{ inquiry.company_name }} • {{ inquiry.job_title }}</p>
+        </div>
+        <div class="admin-actions">
+            <a href="{% url 'inquiry_edit' inquiry.id %}">Edit Full Details</a>
+            <a href="{% url 'inquiry_delete' inquiry.id %}">Delete</a>
+        </div>
+    </div>
+
+    <div class="detail-card status-detail-card">
+        <h2>Update Enquiry Status</h2>
+        <p class="form-note">This status is visible to the client on the public enquiry tracking page.</p>
+        <form method="post" action="{% url 'inquiry_status_update' inquiry.id %}" class="quick-status-form">
+            {% csrf_token %}
+            <div class="admin-form-grid">
+                <div class="admin-field">
+                    <label>Status</label>
+                    <select name="status">
+                        {% for option in status_options %}
+                        <option value="{{ option }}" {% if inquiry.status == option %}selected{% endif %}>{{ option }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="admin-field admin-field-full">
+                    <label>Internal Admin Notes</label>
+                    <textarea name="admin_notes">{{ inquiry.admin_notes }}</textarea>
+                </div>
+            </div>
+            <div class="admin-form-actions">
+                <button type="submit">Save Status Update</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="detail-card">
+        <div class="info-grid">
+            <p><b>Tracking ID:</b> {{ inquiry.tracking_id }}</p>
+            <p><b>Current Status:</b> <span class="status-badge">{{ inquiry.status }}</span></p>
+            <p><b>Email:</b> {{ inquiry.email }}</p>
+            <p><b>Phone:</b> {{ inquiry.phone }}</p>
+            <p><b>Country:</b> {{ inquiry.country }}</p>
+            <p><b>Service:</b> {{ inquiry.service_interest }}</p>
+            <p><b>Budget:</b> {{ inquiry.budget_range }}</p>
+            <p><b>Preferred Time:</b> {{ inquiry.preferred_contact_time }}</p>
+            <p><b>Submitted:</b> {{ inquiry.created_display }}</p>
+        </div>
+        <h2>Project Details</h2>
+        <p>{{ inquiry.job_details|linebreaksbr }}</p>
+        {% if inquiry.admin_notes %}
+        <h2>Internal Admin Notes</h2>
+        <p>{{ inquiry.admin_notes|linebreaksbr }}</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+```
+

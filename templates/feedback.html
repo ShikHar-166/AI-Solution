@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %}Feedback | AI-Solution{% endblock %}
+{% block content %}
+<section class="page-hero gradient-page"><div class="container"><span>/ Feedback</span><h1>Share your experience</h1><p>Your feedback helps us improve our AI services and customer support.</p></div></section>
+<section class="section container feedback-layout">
+    <form method="post" class="admin-form-card feedback-form">{% csrf_token %}<h2>Submit Feedback</h2><div class="admin-form-grid"><div class="admin-field"><label>Name *</label><input name="name" value="{{ form_data.name }}" required></div><div class="admin-field"><label>Email *</label><input type="email" name="email" value="{{ form_data.email }}" required></div><div class="admin-field"><label>Role / Company *</label><input name="role" value="{{ form_data.role }}" required></div><div class="admin-field"><label>Rating *</label><select name="rating" required><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option></select></div><div class="admin-field admin-field-full"><label>Feedback Message *</label><textarea name="quote" required>{{ form_data.quote }}</textarea></div></div><div class="admin-form-actions"><button type="submit">Submit Feedback</button></div><p class="form-note">Feedback appears publicly only after admin approval.</p></form>
+    <div><div class="center-heading"><span>/ Testimonials</span><h2>Approved customer feedback</h2></div><div class="card-grid one-column">{% for item in testimonials %}<article class="testimonial-card"><div class="stars">★★★★★ <small>{{ item.rating }}/5</small></div><p>{{ item.quote }}</p><strong>{{ item.name }}</strong><small>{{ item.role }}</small></article>{% empty %}<div class="empty-state">Approved feedback will appear here.</div>{% endfor %}</div></div>
+</section>
+{% endblock %}

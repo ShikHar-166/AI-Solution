@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Track Enquiry | AI-Solution{% endblock %}
+{% block content %}
+<section class="page-hero gradient-page"><div class="container"><span>/ Track Enquiry</span><h1>Check your enquiry status</h1><p>Enter your tracking ID or email address to view the latest progress update.</p></div></section>
+<section class="section container narrow-section">
+    <form method="post" class="admin-form-card tracking-form">{% csrf_token %}<div class="admin-form-grid"><div class="admin-field"><label>Tracking ID</label><input name="tracking_id" value="{{ tracking_id }}" placeholder="AIS-2026-0001"></div><div class="admin-field"><label>Email Address</label><input type="email" name="email" value="{{ email }}" placeholder="client@example.com"></div></div><div class="admin-form-actions"><button type="submit">Check Status</button></div></form>
+    {% if searched %}
+        {% if result %}
+        <div class="detail-card tracking-result"><span class="pill">{{ result.status }}</span><h2>{{ result.tracking_id }}</h2><div class="info-grid"><p><b>Name:</b> {{ result.name }}</p><p><b>Company:</b> {{ result.company_name }}</p><p><b>Service:</b> {{ result.service_interest }}</p><p><b>Submitted:</b> {{ result.created_display }}</p></div><p>Your enquiry is currently marked as <b>{{ result.status }}</b>. Our team will continue updating the progress from the admin panel.</p></div>
+        {% else %}
+        <div class="empty-state">No enquiry matched the details provided. Please check the tracking ID or email address.</div>
+        {% endif %}
+    {% endif %}
+</section>
+{% endblock %}

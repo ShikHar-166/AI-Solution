@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Gallery | AI-Solution{% endblock %}
+{% block content %}
+<section class="page-hero gradient-page"><div class="container"><span>/ Gallery</span><h1>Project visuals and platform media</h1><p>Explore selected media items related to AI services, dashboards, customer support and digital solution interfaces.</p></div></section>
+<section class="section container">
+    <div class="gallery-grid">
+        {% for item in gallery_items %}
+        <a href="{% url 'gallery_detail' item.id %}" class="event-card">
+            {% if item.images %}<img src="{{ item.images.0.data_url }}" alt="{{ item.title }}">{% else %}<div class="event-gradient"><span>{{ item.category }}</span></div>{% endif %}
+            <div class="event-body"><span class="pill">{{ item.category }}</span><h3>{{ item.title }}</h3><p>{{ item.description }}</p><b>View details →</b></div>
+        </a>
+        {% empty %}<div class="empty-state">No gallery records available.</div>{% endfor %}
+    </div>
+</section>
+{% endblock %}

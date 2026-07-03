@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %}{{ event.title }} | AI-Solution{% endblock %}
+{% block content %}
+<section class="detail-hero gradient-page"><div class="container"><a href="{% url 'events' %}" class="back-link">← Back to Events</a><span>/ {{ event.tag }}</span><h1>{{ event.title }}</h1><p>{{ event.description }}</p><div class="meta-row"><b>{{ event.date }}</b>{% if event.location %}<b>{{ event.location }}</b>{% endif %}</div></div></section>
+<section class="section container detail-grid">
+    <article class="detail-card"><h2>Event Details</h2><p>{{ event.details|linebreaksbr }}</p></article>
+    <aside class="image-gallery-card"><h2>Event Images</h2>{% if event.images %}<div class="detail-image-grid">{% for image in event.images %}<img src="{{ image.data_url }}" alt="{{ image.name }}">{% endfor %}</div>{% else %}<div class="empty-state">No images added yet.</div>{% endif %}</aside>
+</section>
+{% endblock %}

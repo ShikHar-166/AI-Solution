@@ -1,0 +1,203 @@
+{% extends 'admin_base.html' %}
+
+{% block title %}Dashboard | AI-Solution{% endblock %}
+
+{% block admin_content %}
+<div class="admin-page compact-admin">
+
+    <div class="admin-header">
+        <div>
+            <span>/ Admin Dashboard</span>
+            <h1>AI-Solution Management</h1>
+            <p>Monitor enquiries, chatbot learning, feedback approvals and website activity.</p>
+        </div>
+    </div>
+
+    <div class="stats-grid clean-stats">
+        <div>
+            <small>Total Enquiries</small>
+            <b>{{ total_count }}</b>
+        </div>
+
+        <div>
+            <small>Received</small>
+            <b>{{ received_count }}</b>
+        </div>
+
+        <div>
+            <small>In Progress</small>
+            <b>{{ progress_count }}</b>
+        </div>
+
+        <div>
+            <small>Completed</small>
+            <b>{{ completed_count }}</b>
+        </div>
+
+        <div>
+            <small>Pending Feedback</small>
+            <b>{{ pending_feedback_count }}</b>
+        </div>
+
+        <div>
+            <small>Unanswered Questions</small>
+            <b>{{ unanswered_count }}</b>
+        </div>
+    </div>
+
+    <div class="chart-grid">
+
+        <article class="chart-card">
+            <h3>Enquiries by Status</h3>
+
+            {% for item in status_chart %}
+            <div class="bar-row">
+                <span>{{ item.label }}</span>
+                <b>{{ item.count }}</b>
+                <i data-percent="{{ item.percent }}"></i>
+            </div>
+            {% empty %}
+            <p class="empty-state">No status data yet.</p>
+            {% endfor %}
+        </article>
+
+        <article class="chart-card">
+            <h3>Enquiries by Service</h3>
+
+            {% for item in service_chart %}
+            <div class="bar-row">
+                <span>{{ item.label }}</span>
+                <b>{{ item.count }}</b>
+                <i data-percent="{{ item.percent }}"></i>
+            </div>
+            {% empty %}
+            <p class="empty-state">No service data yet.</p>
+            {% endfor %}
+        </article>
+
+        <article class="chart-card">
+            <h3>Chatbot Performance</h3>
+
+            {% for item in chat_chart %}
+            <div class="bar-row">
+                <span>{{ item.label }}</span>
+                <b>{{ item.count }}</b>
+                <i data-percent="{{ item.percent }}"></i>
+            </div>
+            {% empty %}
+            <p class="empty-state">No chatbot data yet.</p>
+            {% endfor %}
+        </article>
+
+        <article class="chart-card">
+            <h3>Feedback Approval</h3>
+
+            {% for item in feedback_chart %}
+            <div class="bar-row">
+                <span>{{ item.label }}</span>
+                <b>{{ item.count }}</b>
+                <i data-percent="{{ item.percent }}"></i>
+            </div>
+            {% empty %}
+            <p class="empty-state">No feedback data yet.</p>
+            {% endfor %}
+        </article>
+
+    </div>
+
+    <div class="admin-section-heading">
+        <span>/ Customer Enquiries</span>
+        <h2>Recent Enquiries</h2>
+    </div>
+
+    <form method="get" class="filter-bar">
+        <input
+            type="search"
+            name="q"
+            value="{{ search }}"
+            placeholder="Search by tracking ID, name, email, company or job title"
+        >
+
+        <select name="status">
+            <option value="">All status</option>
+
+            {% for option in status_options %}
+            <option value="{{ option }}" {% if status_filter == option %}selected{% endif %}>
+                {{ option }}
+            </option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">Filter</button>
+    </form>
+
+    <div class="table-card">
+        <table>
+            <thead>
+                <tr>
+                    <th>Tracking ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Company</th>
+                    <th>Status / Update</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for inquiry in inquiries %}
+                <tr>
+                    <td>{{ inquiry.tracking_id }}</td>
+                    <td>{{ inquiry.name }}</td>
+                    <td>{{ inquiry.email }}</td>
+                    <td>{{ inquiry.company_name }}</td>
+
+                    <td>
+                        <form
+                            method="post"
+                            action="{% url 'inquiry_status_update' inquiry.id %}"
+                            class="status-update-form"
+                        >
+                            {% csrf_token %}
+
+                            <select name="status" aria-label="Update enquiry status for {{ inquiry.tracking_id }}">
+                                {% for option in status_options %}
+                                <option value="{{ option }}" {% if inquiry.status == option %}selected{% endif %}>
+                                    {{ option }}
+                                </option>
+                                {% endfor %}
+                            </select>
+
+                            <button type="submit">Update</button>
+                        </form>
+                    </td>
+
+                    <td>{{ inquiry.created_display }}</td>
+
+                    <td class="table-actions">
+                        <a href="{% url 'inquiry_detail' inquiry.id %}">View</a>
+                        <a href="{% url 'inquiry_edit' inquiry.id %}">Edit</a>
+                        <a class="danger" href="{% url 'inquiry_delete' inquiry.id %}">Delete</a>
+                    </td>
+                </tr>
+
+                {% empty %}
+                <tr>
+                    <td colspan="7" class="empty-state">No enquiries found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<script>
+    document.querySelectorAll('[data-percent]').forEach(function (bar) {
+        const value = Number(bar.dataset.percent || 0);
+        const safeValue = Math.max(0, Math.min(100, value));
+        bar.style.width = safeValue + '%';
+    });
+</script>
+{% endblock %}

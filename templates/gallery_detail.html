@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %}{{ item.title }} | AI-Solution{% endblock %}
+{% block content %}
+<section class="detail-hero gradient-page"><div class="container"><a href="{% url 'gallery' %}" class="back-link">← Back to Gallery</a><span>/ {{ item.category }}</span><h1>{{ item.title }}</h1><p>{{ item.description }}</p></div></section>
+<section class="section container detail-grid">
+    <article class="detail-card"><h2>Gallery Details</h2><p>{{ item.details|linebreaksbr }}</p></article>
+    <aside class="image-gallery-card"><h2>Project Images</h2>{% if item.images %}<div class="detail-image-grid">{% for image in item.images %}<img src="{{ image.data_url }}" alt="{{ image.name }}">{% endfor %}</div>{% else %}<div class="empty-state">No images added yet.</div>{% endif %}</aside>
+</section>
+{% endblock %}

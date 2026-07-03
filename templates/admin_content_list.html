@@ -1,0 +1,9 @@
+{% extends 'admin_base.html' %}
+{% block title %}{{ module.title }} | AI-Solution{% endblock %}
+{% block admin_content %}
+<div class="admin-page compact-admin">
+    <div class="admin-header"><div><span>/ Admin Module</span><h1>{{ module.title }}</h1><p>Add, update and delete {{ module.singular|lower }} records.</p></div><div class="admin-actions"><a href="{% url 'admin_content_create' module_slug %}">Add {{ module.singular }}</a></div></div>
+    <form method="get" class="filter-bar single"><input type="search" name="q" value="{{ search }}" placeholder="Search records"><button type="submit">Search</button></form>
+    <div class="table-card"><table><thead><tr>{% for header in headers %}<th>{{ header }}</th>{% endfor %}<th>Date</th><th>Actions</th></tr></thead><tbody>{% for row in rows %}<tr>{% for value in row.values %}<td>{{ value|truncatechars:90 }}</td>{% endfor %}<td>{{ row.created_display }}</td><td class="table-actions"><a href="{% url 'admin_content_edit' module_slug row.id %}">Edit</a>{% if module_slug == 'testimonials' %}<form method="post" action="{% url 'testimonial_status' row.id 'Approved' %}" class="inline-form">{% csrf_token %}<button type="submit">Approve</button></form><form method="post" action="{% url 'testimonial_status' row.id 'Rejected' %}" class="inline-form">{% csrf_token %}<button type="submit" class="danger-text">Reject</button></form>{% endif %}<a class="danger" href="{% url 'admin_content_delete' module_slug row.id %}">Delete</a></td></tr>{% empty %}<tr><td colspan="6" class="empty-state">No records found.</td></tr>{% endfor %}</tbody></table></div>
+</div>
+{% endblock %}

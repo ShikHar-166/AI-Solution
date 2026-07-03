@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}Contact | AI-Solution{% endblock %}
+{% block content %}
+<section class="contact-hero">
+    <div class="container">
+        <div class="center-heading light"><span>/ Contact Us</span><h1>Submit your project enquiry</h1><p>Share your requirements and our team will review your request.</p></div>
+        {% if submitted_tracking_id %}
+        <div class="tracking-success">
+            <h2>Your enquiry has been received</h2>
+            <p>Please save this tracking ID:</p>
+            <strong>{{ submitted_tracking_id }}</strong>
+            <a href="{% url 'track_enquiry' %}" class="outline-btn soft">Track Enquiry</a>
+        </div>
+        {% endif %}
+        <form method="post" class="contact-form glass-form">
+            {% csrf_token %}
+            <div class="form-grid">
+                <input type="text" name="name" value="{{ form_data.name }}" placeholder="Name *" required>
+                <input type="email" name="email" value="{{ form_data.email }}" placeholder="Email address *" required>
+                <input type="text" name="phone" value="{{ form_data.phone }}" placeholder="Phone number *" required>
+                <input type="text" name="company_name" value="{{ form_data.company_name }}" placeholder="Company name *" required>
+                <input type="text" name="country" value="{{ form_data.country }}" placeholder="Country *" required>
+                <input type="text" name="job_title" value="{{ form_data.job_title }}" placeholder="Job title *" required>
+                <select name="service_interest"><option value="">Service interested in</option>{% for service in services %}<option value="{{ service.title }}" {% if form_data.service_interest == service.title %}selected{% endif %}>{{ service.title }}</option>{% endfor %}</select>
+                <input type="text" name="budget_range" value="{{ form_data.budget_range }}" placeholder="Budget range">
+                <input type="text" name="preferred_contact_time" value="{{ form_data.preferred_contact_time }}" placeholder="Preferred contact time">
+                <textarea name="job_details" placeholder="Project details *" required>{{ form_data.job_details }}</textarea>
+            </div>
+            <button type="submit" class="outline-btn">Submit Enquiry</button>
+        </form>
+        <div class="stats-row contact-stats"><div><b>152K</b><span>AI interactions</span></div><div><b>25K</b><span>Users monthly</span></div><div><b>4.8</b><span>Average rating</span></div></div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Gallery & Events | AI-Solution{% endblock %}
+{% block content %}
+<section class="page-hero gradient-page"><div class="container"><span>/ Gallery & Events</span><h1>Promotional events and activities</h1><p>Past promotional activities and upcoming events related to AI solutions, automation and software innovation.</p></div></section>
+<section class="section container">
+    <div class="gallery-grid">
+        {% for item in gallery_items %}
+        <a href="{% url 'gallery_detail' item.id %}" class="event-card">
+            {% if item.images %}<img src="{{ item.images.0.data_url }}" alt="{{ item.title }}">{% else %}<div class="event-gradient"><span>{{ item.tag }}</span></div>{% endif %}
+            <div class="event-body"><span class="pill">{{ item.tag }}</span><small>{{ item.date }}</small><h3>{{ item.title }}</h3><p>{{ item.description }}</p><b>View details →</b></div>
+        </a>
+        {% empty %}<div class="empty-state">No gallery or event records available.</div>{% endfor %}
+    </div>
+</section>
+{% endblock %}

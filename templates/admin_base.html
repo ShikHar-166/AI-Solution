@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="admin-shell">
+    <aside class="admin-sidebar">
+        <div class="sidebar-brand">
+            <strong>AI-Solution</strong>
+            <span>Management Panel</span>
+        </div>
+        <nav>
+            <a href="{% url 'dashboard' %}">📊 Dashboard</a>
+            <a href="{% url 'inquiry_create' %}">➕ Add Enquiry</a>
+            <a href="{% url 'admin_content_list' 'services' %}">⚙️ Services</a>
+            <a href="{% url 'admin_content_list' 'projects' %}">💼 Portfolio</a>
+            <a href="{% url 'admin_content_list' 'gallery' %}">🖼️ Gallery</a>
+            <a href="{% url 'admin_content_list' 'events' %}">📅 Events</a>
+            <a href="{% url 'admin_content_list' 'articles' %}">📰 Articles</a>
+            <a href="{% url 'admin_content_list' 'testimonials' %}">⭐ Feedback</a>
+            <a href="{% url 'admin_content_list' 'chatbot' %}">🤖 Chatbot Training</a>
+            <a href="{% url 'unanswered_questions' %}">💬 Unanswered Questions</a>
+            <a href="{% url 'export_enquiries_csv' %}">⬇️ Export Enquiries</a>
+            <a href="{% url 'admin_logout' %}">↪ Logout</a>
+        </nav>
+    </aside>
+    <div class="admin-main">
+        {% block admin_content %}{% endblock %}
+    </div>
+</section>
+{% endblock %}

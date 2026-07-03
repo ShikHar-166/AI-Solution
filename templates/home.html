@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% block title %}AI-Solution | Smart AI Solutions{% endblock %}
+{% block content %}
+<section class="hero-gradient">
+    <div class="container hero-grid">
+        <div class="phone-hero">
+            <div class="phone-frame">
+                <div class="phone-speaker"></div>
+                <div class="phone-screen">
+                    <div class="mini-dashboard"><span></span><span></span><span></span></div>
+                    <h4>AI Dashboard</h4>
+                    <div class="screen-card">New enquiries <b>{{ total_inquiries }}</b></div>
+                    <div class="screen-card teal">Smart support active</div>
+                    <div class="screen-list"><i></i><i></i><i></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-copy">
+            <p class="hero-eyebrow">AI-Powered Software Company</p>
+            <h1>Build smarter digital experiences with AI-Solution</h1>
+            <p>AI-Solution provides intelligent chatbots, business automation, web applications and data-driven tools for modern organisations.</p>
+            <div class="hero-buttons">
+                <a href="{% url 'contact' %}" class="outline-btn">Start Enquiry</a>
+                <a href="{% url 'services' %}" class="outline-btn soft">Explore Services</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="split-section container">
+    <div>
+        <p class="section-kicker">Intelligent digital solutions for growing businesses</p>
+        <h2>Modern website, smart chatbot and admin-controlled content.</h2>
+        <p>Visitors can explore services, read articles, view events, browse previous solutions, submit enquiries and track progress through a clean customer interface.</p>
+        <a href="{% url 'portfolio' %}" class="small-pill">View Portfolio</a>
+    </div>
+    <div class="tilted-phone">
+        <div class="phone-frame small-phone"><div class="phone-screen"><h4>Customer Platform</h4><div class="screen-card">Services</div><div class="screen-card teal">Gallery</div><div class="screen-card">Track Enquiry</div></div></div>
+    </div>
+</section>
+
+<section class="features-band">
+    <div class="container">
+        <div class="center-heading light"><span>/ Platform Capabilities</span><h2>AI-powered tools to transform your business</h2></div>
+        <div class="feature-layout">
+            <div class="feature-list">
+                <div><b>Responsive Business Platform</b><p>Works smoothly on desktop, tablet and mobile devices.</p></div>
+                <div><b>Flexible Content Management</b><p>Admin can manage services, projects, gallery, events, articles and feedback.</p></div>
+                <div><b>Enquiry Tracking</b><p>Clients receive a tracking ID and can check progress anytime.</p></div>
+            </div>
+            <div class="center-phone"><div class="phone-frame"><div class="phone-screen"><h4>Admin CMS</h4><div class="screen-card teal">Content management</div><div class="screen-card">Chatbot learning</div></div></div></div>
+            <div class="feature-list right">
+                <div><b>Project Gallery</b><p>Multiple image upload for projects, service visuals and media records.</p></div>
+                <div><b>Smart Chatbot Support</b><p>Trained answers, improved fallback and stored unanswered questions.</p></div>
+                <div><b>Secure Data Management</b><p>Stores enquiries, content, feedback, chatbot records and chat logs.</p></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section container">
+    <div class="center-heading"><span>/ Services</span><h2>AI software solutions</h2><p>Explore intelligent services designed for practical business needs.</p></div>
+    <div class="card-grid three">
+        {% for service in services %}
+        <article class="soft-card">
+            {% if service.images %}<img src="{{ service.images.0.data_url }}" alt="{{ service.title }}" class="card-image">{% else %}<div class="icon-circle">{{ service.icon }}</div>{% endif %}
+            <h3>{{ service.title }}</h3>
+            <p>{{ service.description }}</p>
+        </article>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="showcase-section">
+    <div class="container">
+        <div class="center-heading"><span>/ Project Showcase</span><h2>Previous industry solutions</h2></div>
+        <div class="project-strip">
+            {% for project in projects %}
+            <a href="{% url 'project_detail' project.id %}" class="project-preview-card">
+                {% if project.images %}<img src="{{ project.images.0.data_url }}" alt="{{ project.title }}">{% else %}<div class="placeholder-visual"><b>{{ project.industry }}</b><span>{{ project.title }}</span></div>{% endif %}
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="section container">
+    <div class="center-heading"><span>/ Events</span><h2>Workshops, webinars and company activities</h2></div>
+    <div class="gallery-grid">
+        {% for event in events %}
+        <a href="{% url 'event_detail' event.id %}" class="event-card">
+            {% if event.images %}<img src="{{ event.images.0.data_url }}" alt="{{ event.title }}">{% else %}<div class="event-gradient"><span>{{ event.tag }}</span></div>{% endif %}
+            <div class="event-body"><span class="pill">{{ event.tag }}</span><small>{{ event.date }}</small><h3>{{ event.title }}</h3><p>{{ event.description }}</p><b>View details →</b></div>
+        </a>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="testimonials-section">
+    <div class="container">
+        <div class="center-heading"><span>/ Testimonials</span><h2>Customer feedback</h2></div>
+        <div class="card-grid three">
+            {% for item in testimonials %}
+            <article class="testimonial-card">
+                <div class="stars">★★★★★ <small>{{ item.rating }}/5</small></div>
+                <p>{{ item.quote }}</p>
+                <strong>{{ item.name }}</strong><small>{{ item.role }}</small>
+            </article>
+            {% empty %}<div class="empty-state">Approved feedback will appear here.</div>{% endfor %}
+        </div>
+        <div class="center-action"><a href="{% url 'feedback' %}" class="small-pill">Share Feedback</a></div>
+    </div>
+</section>
+
+<section class="pricing-section container">
+    <div class="center-heading"><span>/ Service Plans</span><h2>Flexible project packages</h2><p>Final quotation is based on business requirements and submitted enquiries.</p></div>
+    <div class="pricing-grid">
+        <div class="price-card"><h3>Essential</h3><strong>Starter</strong><p>Best for small businesses needing a focused website, chatbot guidance or automation planning.</p><a href="{% url 'contact' %}">Request a quote</a></div>
+        <div class="price-card featured"><h3>Growth</h3><strong>Premium</strong><p>Includes website, admin dashboard, secure data storage, enquiry tracking and chatbot training.</p><a href="{% url 'contact' %}">Start enquiry</a></div>
+    </div>
+</section>
+
+<section class="contact-band">
+    <div class="container contact-band-inner">
+        <div class="center-heading light"><span>/ Contact Us</span><h2>Ready to discuss your AI project?</h2></div>
+        <a href="{% url 'contact' %}" class="outline-btn">Submit Enquiry</a>
+        <div class="stats-row"><div><b>152K</b><span>AI interactions</span></div><div><b>25K</b><span>Users reached</span></div><div><b>4.8</b><span>Average rating</span></div></div>
+    </div>
+</section>
+{% endblock %}

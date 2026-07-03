@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Articles | AI-Solution{% endblock %}
+{% block content %}
+<section class="page-hero gradient-page"><div class="container"><span>/ Articles & Blog</span><h1>AI insights and company news</h1><p>Read practical articles about chatbots, automation, analytics and digital transformation.</p></div></section>
+<section class="section container">
+    <form class="search-form" method="get"><input type="search" name="q" value="{{ query }}" placeholder="Search articles by title, category or summary"><button type="submit">Search</button></form>
+    <div class="card-grid three">
+        {% for article in articles %}
+        <article class="article-card">
+            {% if article.images %}<img src="{{ article.images.0.data_url }}" alt="{{ article.title }}" class="article-cover">{% else %}<div class="article-cover placeholder-cover">{{ article.category }}</div>{% endif %}
+            <div class="article-body"><span class="pill">{{ article.category }}</span><h3>{{ article.title }}</h3><small>{{ article.date }}{% if article.author %} • {{ article.author }}{% endif %}</small><p>{{ article.summary }}</p><a href="{% url 'article_detail' article.id %}" class="text-link">Read article →</a></div>
+        </article>
+        {% empty %}<div class="empty-state">No article matched your search.</div>{% endfor %}
+    </div>
+</section>
+{% endblock %}

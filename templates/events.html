@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Events | AI-Solution{% endblock %}
+{% block content %}
+<section class="page-hero gradient-page"><div class="container"><span>/ Events</span><h1>Workshops, webinars and activities</h1><p>Past and upcoming activities related to AI solutions, automation and software innovation.</p></div></section>
+<section class="section container">
+    <div class="gallery-grid">
+        {% for event in events %}
+        <a href="{% url 'event_detail' event.id %}" class="event-card">
+            {% if event.images %}<img src="{{ event.images.0.data_url }}" alt="{{ event.title }}">{% else %}<div class="event-gradient"><span>{{ event.tag }}</span></div>{% endif %}
+            <div class="event-body"><span class="pill">{{ event.tag }}</span><small>{{ event.date }}</small><h3>{{ event.title }}</h3><p>{{ event.description }}</p><b>View details →</b></div>
+        </a>
+        {% empty %}<div class="empty-state">No event records available.</div>{% endfor %}
+    </div>
+</section>
+{% endblock %}

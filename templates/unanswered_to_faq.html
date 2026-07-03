@@ -1,0 +1,5 @@
+{% extends 'admin_base.html' %}
+{% block title %}Train Chatbot | AI-Solution{% endblock %}
+{% block admin_content %}
+<div class="admin-form-page compact-admin"><div class="admin-form-header"><span>/ Chatbot Learning</span><h1>Add Answer</h1><p>Save this visitor question as a chatbot training record.</p></div><div class="admin-form-card"><form method="post" class="admin-edit-form">{% csrf_token %}<div class="admin-field admin-field-full"><label>Visitor Question</label><input value="{{ question.message }}" readonly></div><div class="admin-form-grid"><div class="admin-field"><label>Intent / Category</label><input name="intent" value="general"></div><div class="admin-field"><label>Keywords</label><input name="keywords" value="{{ question.message }}"></div><div class="admin-field admin-field-full"><label>Answer *</label><textarea name="answer" required></textarea></div></div><div class="admin-form-actions"><button type="submit">Save Training Record</button><a href="{% url 'unanswered_questions' %}">Cancel</a></div></form></div></div>
+{% endblock %}

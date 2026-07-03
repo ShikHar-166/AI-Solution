@@ -1,0 +1,8 @@
+{% extends 'admin_base.html' %}
+{% block title %}Unanswered Questions | AI-Solution{% endblock %}
+{% block admin_content %}
+<div class="admin-page compact-admin">
+    <div class="admin-header"><div><span>/ Chatbot Learning</span><h1>Unanswered Questions</h1><p>Review visitor questions that the chatbot could not answer and turn useful ones into training records.</p></div></div>
+    <div class="table-card"><table><thead><tr><th>Question</th><th>Score</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead><tbody>{% for item in questions %}<tr><td>{{ item.message }}</td><td>{{ item.score }}</td><td><span class="status-badge">{{ item.status }}</span></td><td>{{ item.created_display }}</td><td class="table-actions"><a href="{% url 'unanswered_to_faq' item.id %}">Add Answer</a><form method="post" action="{% url 'unanswered_delete' item.id %}" class="inline-form">{% csrf_token %}<button type="submit" class="danger-text">Delete</button></form></td></tr>{% empty %}<tr><td colspan="5" class="empty-state">No unanswered questions found.</td></tr>{% endfor %}</tbody></table></div>
+</div>
+{% endblock %}
